@@ -20,3 +20,7 @@ Esta extensão não é uma cópia da interface do Obsidian. Ela traduz uma lingu
    **Referência oficial de API**: `manifest.json`, inicialização de plugins e handlers de abertura/fechamento de janela.
 
 A identidade de `Pixel-Blue Workspace` e os nomes dos projetos acima pertencem aos respectivos autores. Não há imagens ou fontes de terceiros incorporadas ao XPI.
+
+## Ajustes v0.1.2
+
+Seleção `#D0E4FD` e marcador `#E391BB` amostrados da captura de tela enviada do Pixel-Blue Workspace para Obsidian. O projeto credita Rinrinsu. Os seletores de lista foram verificados no código-fonte do Zotero (`scss/components/_virtualized-table.scss`, `_item-tree.scss` e `_collection-tree.scss`).

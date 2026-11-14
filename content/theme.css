@@ -1,5 +1,5 @@
 /*
- * Zotero Pixel-Blue Workspace v0.1.0
+ * Zotero Pixel-Blue Workspace v0.1.2
  * ORIGINAL CSS for Zotero, inspired by pixel-blue Workspace's Pixel Sky palette.
  * Respect Zotero's existing menus, pane layout, fonts and PDF content.
  * All rules are gated behind [zpbw-theme] and stop working when disabled.
@@ -17,6 +17,12 @@
   --zpbw-border: #aacbe4;
   --zpbw-grid-line: rgb(69 137 188 / 9%);
   --zpbw-shadow: rgb(88 156 207 / 12%);
+  /* Pixel-Blue colors sampled from the user's Obsidian screenshot. */
+  --zpbw-selection-focused: #d0e4fd;
+  --zpbw-selection-unfocused: #d9e9fc;
+  --zpbw-selection-marker: #e391bb;
+  --zpbw-selection-ink: #18344d;
+  --zpbw-items-grid-line: rgb(69 137 188 / 7%);
 
   /* Public semantic tokens used by Zotero: preserve all layout mechanics. */
   --material-background: var(--zpbw-paper);
@@ -68,7 +74,6 @@
 /* Non-obtrusive work-surface grid. Important: never put a grid over a PDF page. */
 :root[zpbw-theme][zpbw-grid] #zotero-collections-pane,
 :root[zpbw-theme][zpbw-grid] #zotero-collections-tree,
-:root[zpbw-theme][zpbw-grid] #zotero-items-pane,
 :root[zpbw-theme][zpbw-grid] #zotero-item-pane-content,
 :root[zpbw-theme][zpbw-grid] #zotero-collections-pane-container {
   background-image:
@@ -106,6 +111,11 @@
     --zpbw-border: #365d7a;
     --zpbw-grid-line: rgb(145 210 255 / 7%);
     --zpbw-shadow: rgb(3 10 18 / 38%);
+    --zpbw-selection-focused: #2c4b65;
+    --zpbw-selection-unfocused: #263e55;
+    --zpbw-selection-marker: #d5a0c0;
+    --zpbw-selection-ink: #eaf6ff;
+    --zpbw-items-grid-line: rgb(145 210 255 / 7%);
 
     --material-background: var(--zpbw-paper);
     --material-background50: rgb(22 40 58 / 50%);
@@ -171,5 +181,44 @@
   :root[zpbw-theme][zpbw-grid] #zotero-item-pane-content,
   :root[zpbw-theme][zpbw-grid] #zotero-collections-pane-container {
     background-image: none;
+  }
+}
+
+/* v0.1.2: grid in the real virtualized items scroll body, not the pane shell.
+ * Opaque alternating rows keep the grid away from bibliographic text. */
+:root[zpbw-theme][zpbw-items-grid] #zotero-items-tree .virtualized-table-body,
+:root[zpbw-theme][zpbw-items-grid] #zotero-items-tree .virtualized-table-container > div {
+  background-color: var(--zpbw-paper);
+  background-image:
+    linear-gradient(var(--zpbw-items-grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--zpbw-items-grid-line) 1px, transparent 1px);
+  background-position: -1px -1px;
+  background-size: 20px 20px;
+}
+
+/* v0.1.2: preserve Zotero's per-cell colors including green rankings.
+ * Focussed and unfocussed selection stay close in luminance. */
+:root[zpbw-theme][zpbw-soft-selection]
+  :is(#zotero-items-tree, #zotero-collections-tree) .virtualized-table .row.selected {
+  background-color: var(--zpbw-selection-focused);
+  color: var(--zpbw-selection-ink);
+  box-shadow: inset 3px 0 0 var(--zpbw-selection-marker);
+}
+:root[zpbw-theme][zpbw-soft-selection]
+  :is(#zotero-items-tree, #zotero-collections-tree) .virtualized-table:not(:focus-within) .row.selected {
+  background-color: var(--zpbw-selection-unfocused);
+  color: var(--zpbw-selection-ink);
+}
+@media (forced-colors: active) {
+  :root[zpbw-theme][zpbw-items-grid] #zotero-items-tree .virtualized-table-body,
+  :root[zpbw-theme][zpbw-items-grid] #zotero-items-tree .virtualized-table-container > div {
+    background-image: none;
+    background-color: Canvas;
+  }
+  :root[zpbw-theme][zpbw-soft-selection]
+    :is(#zotero-items-tree, #zotero-collections-tree) .virtualized-table .row.selected {
+    background-color: Highlight;
+    color: HighlightText;
+    box-shadow: none;
   }
 }

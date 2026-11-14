@@ -1,8 +1,8 @@
 {
   "manifest_version": 2,
   "name": "Zotero Pixel-Blue Workspace",
-  "version": "0.1.1",
-  "description": "A pixel-blue paper workspace for Zotero, with light and dark palettes, an optional grid and readable native menus.",
+  "version": "0.1.2",
+  "description": "Pixel-blue paper theme with Obsidian-inspired soft selection, optional central grid and native Zotero menus.",
   "author": "vict0rg / community adaptation",
   "icons": {
     "48": "content/icon.svg",
