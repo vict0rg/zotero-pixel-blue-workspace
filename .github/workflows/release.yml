@@ -1,0 +1,28 @@
+name: Build and publish XPI
+on:
+  push:
+    tags:
+      - 'v*'
+permissions:
+  contents: write
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check package
+        run: |
+          node --check bootstrap.js
+          node tests/smoke.cjs
+          node tests/manifest.cjs
+          bash scripts/build.sh
+          python3 - <<'PY'
+          import json, os
+          name = json.load(open('manifest.json'))['version']
+          assert os.environ['GITHUB_REF_NAME'] == 'v' + name
+          PY
+      - name: Publish tag release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "$GITHUB_REF_NAME" dist/*.xpi dist/updates.json --title "Pixel-Blue Workspace $GITHUB_REF_NAME" --notes-file CREDITS.md
