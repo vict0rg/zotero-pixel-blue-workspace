@@ -17,7 +17,7 @@ jobs:
           set -euo pipefail
           base64 --decode source-transfer.txt | tar -xJf -
           rm source-transfer.txt
-          rm .github/workflows/import-source.yml
+          # Keep workflows unchanged: GitHub Actions token cannot write workflow files.
       - name: Validate and compile extension
         shell: bash
         run: |
