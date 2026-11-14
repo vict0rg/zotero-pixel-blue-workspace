@@ -1,0 +1,175 @@
+/*
+ * Zotero Pixel-Blue Workspace v0.1.0
+ * ORIGINAL CSS for Zotero, inspired by pixel-blue Workspace's Pixel Sky palette.
+ * Respect Zotero's existing menus, pane layout, fonts and PDF content.
+ * All rules are gated behind [zpbw-theme] and stop working when disabled.
+ */
+
+:root[zpbw-theme] {
+  --zpbw-ink: #18344d;
+  --zpbw-muted: #587791;
+  --zpbw-accent: #2f78ad;
+  --zpbw-accent-soft: #dceeff;
+  --zpbw-paper: #fbfdff;
+  --zpbw-canvas: #f3f8fe;
+  --zpbw-panel: #e8f3fd;
+  --zpbw-deep-panel: #dceeff;
+  --zpbw-border: #aacbe4;
+  --zpbw-grid-line: rgb(69 137 188 / 9%);
+  --zpbw-shadow: rgb(88 156 207 / 12%);
+
+  /* Public semantic tokens used by Zotero: preserve all layout mechanics. */
+  --material-background: var(--zpbw-paper);
+  --material-background50: rgb(251 253 255 / 50%);
+  --material-background70: rgb(251 253 255 / 70%);
+  --color-background: var(--zpbw-paper);
+  --color-background30: rgb(251 253 255 / 30%);
+  --color-background50: rgb(251 253 255 / 50%);
+  --color-background70: rgb(251 253 255 / 70%);
+  --material-sidepane: var(--zpbw-panel);
+  --material-tabbar: var(--zpbw-deep-panel);
+  --material-toolbar: #edf6ff;
+  --material-stripe: #f0f7fd;
+  --material-button: var(--zpbw-paper);
+  --material-control: var(--zpbw-paper);
+  --material-menu: #fbfdff;
+  --material-mix-quinary: #e9f4fd;
+  --material-mix-quarternary: #daeaf8;
+
+  --color-border: rgb(47 120 173 / 23%);
+  --color-border50: rgb(47 120 173 / 11%);
+  --material-border: 1px solid var(--zpbw-border);
+  --material-border50: 1px solid rgb(47 120 173 / 11%);
+  --material-border-quarternary: 1px solid rgb(47 120 173 / 15%);
+  --material-border-quinary: 1px solid rgb(47 120 173 / 7%);
+  --color-panedivider: var(--zpbw-border);
+  --material-panedivider: 1px solid var(--zpbw-border);
+  --color-quarternary-on-background: #e8f3fd;
+  --color-quarternary-on-sidepane: #d7e9f8;
+
+  --fill-primary: rgb(24 52 77 / 94%);
+  --fill-secondary: rgb(52 89 119 / 75%);
+  --fill-tertiary: rgb(52 89 119 / 47%);
+  --fill-quarternary: rgb(52 89 119 / 20%);
+  --fill-quinary: rgb(52 89 119 / 9%);
+  --fill-senary: rgb(52 89 119 / 4%);
+
+  --color-accent: var(--zpbw-accent);
+  --color-accent-primary: var(--zpbw-accent);
+  --color-accent-primary-hover: #266996;
+  --color-accent-primary-active: #205a80;
+  --accent-blue: var(--zpbw-accent);
+  --accent-blue10: rgb(47 120 173 / 10%);
+  --accent-blue30: rgb(47 120 173 / 30%);
+  --accent-blue50: rgb(47 120 173 / 50%);
+  --accent-azure: #69addd;
+}
+
+/* Non-obtrusive work-surface grid. Important: never put a grid over a PDF page. */
+:root[zpbw-theme][zpbw-grid] #zotero-collections-pane,
+:root[zpbw-theme][zpbw-grid] #zotero-collections-tree,
+:root[zpbw-theme][zpbw-grid] #zotero-items-pane,
+:root[zpbw-theme][zpbw-grid] #zotero-item-pane-content,
+:root[zpbw-theme][zpbw-grid] #zotero-collections-pane-container {
+  background-image:
+    linear-gradient(var(--zpbw-grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--zpbw-grid-line) 1px, transparent 1px);
+  background-size: 20px 20px;
+  background-position: -1px -1px;
+}
+
+/* Thin accent on active Zotero tabs, without affecting tab geometry. */
+:root[zpbw-theme] #zotero-tabs .tab.selected,
+:root[zpbw-theme] #zotero-tabs .tab[aria-selected="true"] {
+  box-shadow: inset 0 -3px 0 var(--zpbw-accent);
+}
+
+/* Zotero's selection/focus should remain visible from the keyboard. */
+:root[zpbw-theme] :is(button, input, select, textarea):focus-visible {
+  outline: 2px solid var(--zpbw-accent);
+  outline-offset: 1px;
+}
+
+/* SAFETY: Deliberately no display/visibility/position rules for native menubar.
+ * The menubar remains Zotero's own widget, not a custom replacement. */
+
+@media (prefers-color-scheme: dark) {
+  :root[zpbw-theme] {
+    --zpbw-ink: #eaf6ff;
+    --zpbw-muted: #a1bfd6;
+    --zpbw-accent: #91d2ff;
+    --zpbw-accent-soft: #284963;
+    --zpbw-paper: #16283a;
+    --zpbw-canvas: #0f1c2a;
+    --zpbw-panel: #1b3045;
+    --zpbw-deep-panel: #112235;
+    --zpbw-border: #365d7a;
+    --zpbw-grid-line: rgb(145 210 255 / 7%);
+    --zpbw-shadow: rgb(3 10 18 / 38%);
+
+    --material-background: var(--zpbw-paper);
+    --material-background50: rgb(22 40 58 / 50%);
+    --material-background70: rgb(22 40 58 / 70%);
+    --color-background: var(--zpbw-paper);
+    --color-background30: rgb(22 40 58 / 30%);
+    --color-background50: rgb(22 40 58 / 50%);
+    --color-background70: rgb(22 40 58 / 70%);
+    --material-sidepane: var(--zpbw-panel);
+    --material-tabbar: var(--zpbw-deep-panel);
+    --material-toolbar: #192e42;
+    --material-stripe: #1b3045;
+    --material-button: #20394f;
+    --material-control: #20394f;
+    --material-menu: #172b3e;
+    --material-mix-quinary: #1e3850;
+    --material-mix-quarternary: #28465d;
+
+    --color-border: rgb(145 210 255 / 23%);
+    --color-border50: rgb(145 210 255 / 11%);
+    --material-border: 1px solid var(--zpbw-border);
+    --material-border50: 1px solid rgb(145 210 255 / 11%);
+    --material-border-quarternary: 1px solid rgb(145 210 255 / 15%);
+    --material-border-quinary: 1px solid rgb(145 210 255 / 7%);
+    --color-panedivider: var(--zpbw-border);
+    --material-panedivider: 1px solid var(--zpbw-border);
+    --color-quarternary-on-background: #28465d;
+    --color-quarternary-on-sidepane: #28465d;
+
+    --fill-primary: rgb(234 246 255 / 94%);
+    --fill-secondary: rgb(180 215 239 / 78%);
+    --fill-tertiary: rgb(180 215 239 / 48%);
+    --fill-quarternary: rgb(180 215 239 / 22%);
+    --fill-quinary: rgb(180 215 239 / 10%);
+    --fill-senary: rgb(180 215 239 / 4%);
+
+    --color-accent: var(--zpbw-accent);
+    --color-accent-primary: var(--zpbw-accent);
+    --color-accent-primary-hover: #b4e2ff;
+    --color-accent-primary-active: #d0ecff;
+    --accent-blue: #78bcef;
+    --accent-blue10: rgb(145 210 255 / 10%);
+    --accent-blue30: rgb(145 210 255 / 30%);
+    --accent-blue50: rgb(145 210 255 / 50%);
+    --accent-azure: #78bcef;
+  }
+}
+
+/* Accessibility: forced colors are authoritative. */
+@media (forced-colors: active) {
+  :root[zpbw-theme] {
+    --material-background: Canvas;
+    --color-background: Canvas;
+    --material-sidepane: Canvas;
+    --material-toolbar: Canvas;
+    --material-tabbar: Canvas;
+    --fill-primary: CanvasText;
+    --color-accent-primary: Highlight;
+  }
+  :root[zpbw-theme][zpbw-grid] #zotero-collections-pane,
+  :root[zpbw-theme][zpbw-grid] #zotero-collections-tree,
+  :root[zpbw-theme][zpbw-grid] #zotero-items-pane,
+  :root[zpbw-theme][zpbw-grid] #zotero-item-pane-content,
+  :root[zpbw-theme][zpbw-grid] #zotero-collections-pane-container {
+    background-image: none;
+  }
+}

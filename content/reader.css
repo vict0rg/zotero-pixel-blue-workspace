@@ -1,0 +1,27 @@
+/* Pixel-Blue reader CHROME ONLY. Never change the PDF/EPUB document canvas. */
+:root[zpbw-theme] {
+  --color-accent: #2f78ad;
+  --color-accent-primary: #2f78ad;
+  --color-accent-primary-hover: #266996;
+  --material-tabbar: #dceeff;
+  --material-toolbar: #edf6ff;
+  --material-sidepane: #e8f3fd;
+  --material-menu: #fbfdff;
+  --color-border: rgb(47 120 173 / 22%);
+  --fill-primary: rgb(24 52 77 / 94%);
+  --fill-secondary: rgb(52 89 119 / 75%);
+}
+@media (prefers-color-scheme: dark) {
+  :root[zpbw-theme] {
+    --color-accent: #91d2ff;
+    --color-accent-primary: #91d2ff;
+    --color-accent-primary-hover: #b4e2ff;
+    --material-tabbar: #112235;
+    --material-toolbar: #192e42;
+    --material-sidepane: #1b3045;
+    --material-menu: #172b3e;
+    --color-border: rgb(145 210 255 / 22%);
+    --fill-primary: rgb(234 246 255 / 94%);
+    --fill-secondary: rgb(180 215 239 / 78%);
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "manifest_version": 2,
+  "name": "Zotero Pixel-Blue Workspace",
+  "version": "0.1.1",
+  "description": "A pixel-blue paper workspace for Zotero, with light and dark palettes, an optional grid and readable native menus.",
+  "author": "vict0rg / community adaptation",
+  "icons": {
+    "48": "content/icon.svg",
+    "96": "content/icon.svg"
+  },
+  "applications": {
+    "zotero": {
+      "id": "zotero-pixel-blue-workspace@vict0rg.github.io",
+      "strict_min_version": "7.0",
+      "strict_max_version": "10.0.*",
+      "update_url": "https://github.com/vict0rg/zotero-pixel-blue-workspace/releases/latest/download/updates.json"
+    }
+  },
+  "homepage_url": "https://github.com/vict0rg/zotero-pixel-blue-workspace"
+}
