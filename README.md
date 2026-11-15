@@ -2,7 +2,7 @@
 
 Tema visual *não oficial* para Zotero 7–10 (Zotero 11 beta: uso experimental, ainda não homologado), inspirado na identidade **pixel-blue Workspace** para Obsidian. Comporta-se como um plugin (.xpi), sem editar o Zotero ou seu perfil manualmente.
 
-> **Estado:** v0.1.2, pré-lançamento experimental e reversível. O pacote foi verificado estruturalmente e com testes de ciclo de vida simulados. Ainda precisa de teste visual/interativo dentro de uma instalação real do Zotero, preferencialmente com perfil de teste.
+> **Estado:** v0.1.3, pré-lançamento experimental e reversível. O pacote foi verificado estruturalmente e com testes de ciclo de vida simulados. Ainda precisa de teste visual/interativo dentro de uma instalação real do Zotero, preferencialmente com perfil de teste.
 
 ## Visual
 
@@ -22,7 +22,7 @@ A versão v0.1.0 foi rejeitada pelo Zotero porque o manifesto omitia `applicatio
 
 1. Recomenda-se criar um perfil de teste/backup do Zotero antes de experimentar temas.
 2. **Desative outros plugins de tema**, especialmente Cupertino e Warm Theme, para evitar conflitos de CSS.
-3. Baixe `zotero-pixel-blue-workspace-0.1.2.xpi`.
+3. Baixe `zotero-pixel-blue-workspace-0.1.3.xpi`.
 4. No Zotero, abra **Ferramentas → Plugins** (ou **Tools → Plugins**). Clique na engrenagem e escolha **Instalar plugin a partir de arquivo**. Selecione o `.xpi`.
 5. Se necessário, reinicie o Zotero.
 6. No menu **Ferramentas → Pixel-Blue Workspace**, use as opções **Ativar tema**, **Grade nos painéis**, **Grade na lista de arquivos** e **Seleção azul suave**.
@@ -32,6 +32,8 @@ A versão v0.1.0 foi rejeitada pelo Zotero porque o manifesto omitia `applicatio
 Desmarque **Grade na lista de arquivos** e **Seleção azul suave** para reverter somente as novidades, ou reinstale a [versão 0.1.1](https://github.com/vict0rg/zotero-pixel-blue-workspace/releases/tag/v0.1.1). Para restaurar o Zotero original, em **Ferramentas → Plugins**, desative ou remova **Zotero Pixel-Blue Workspace**. O plugin remove suas folhas de estilo ao ser desativado; reinicie o Zotero se outra extensão de tema tiver feito alterações próprias.
 
 ## Barra de menus
+
+A v0.1.3 oferece um azul suave na barra de menus nativa do Linux, com opção de desligar em **Ferramentas → Pixel-Blue Workspace → Barra de menus azul**. Modo escuro recebe paleta correspondente. Não foram alterados tamanhos nem visibilidade dos controles.
 
 Este plugin **nunca oculta, substitui nem reposiciona** a barra nativa que contém **Arquivo, Editar, Exibir, Ferramentas, Ajuda**. Apenas acrescenta um submenu dentro do menu existente de Ferramentas; as regras CSS não usam `display`, `visibility`, `position` ou `height` no menubar. Isso evita reproduzir o tipo de falha percebido no Cupertino, mas só um teste no seu ambiente (Zotero + Linux + outros plugins) confirmará a ausência de regressões.
 
@@ -57,7 +59,7 @@ O teste usa uma simulação pequena do ciclo de vida do Zotero. Para teste efeti
 
 ## Compilar
 
-Na raiz do projeto, execute `bash scripts/build.sh`; será gerado `dist/zotero-pixel-blue-workspace-0.1.2.xpi` com os arquivos no nível correto do ZIP. O build cria também `dist/updates.json` para os Releases. **Não** compacte a pasta-pai: `manifest.json` e `bootstrap.js` precisam ficar na raiz do `.xpi`.
+Na raiz do projeto, execute `bash scripts/build.sh`; será gerado `dist/zotero-pixel-blue-workspace-0.1.3.xpi` com os arquivos no nível correto do ZIP. O build cria também `dist/updates.json` para os Releases. **Não** compacte a pasta-pai: `manifest.json` e `bootstrap.js` precisam ficar na raiz do `.xpi`.
 
 ## Distribuição no GitHub
 
@@ -71,6 +73,6 @@ Ver [CREDITS.md](CREDITS.md) e [THIRD_PARTY_LICENSES.md](THIRD_PARTY_LICENSES.md
 
 MIT. Uso de inspiração visual, padrões de extensão e bibliotecas sob licença MIT identificado em [CREDITS.md](CREDITS.md).
 
-## Nota sobre a versão 0.1.2
+## Nota sobre a versão 0.1.3
 
 Esta versão é publicada como **pre-release**, de instalação manual. Não é promovida automaticamente pela URL de atualização `releases/latest`, que continua oferecendo a versão 0.1.1 até uma nova versão estável ser publicada. A mudança foi validada por testes automatizados, mas ainda não visualmente dentro do Zotero da pessoa usuária.

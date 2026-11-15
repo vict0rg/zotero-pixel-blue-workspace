@@ -102,6 +102,7 @@ function makeDocument() {
   assert(doc.documentElement.hasAttribute('zpbw-grid'), 'grid should start enabled');
   assert(doc.documentElement.hasAttribute('zpbw-items-grid'), 'central items grid should start enabled');
   assert(doc.documentElement.hasAttribute('zpbw-soft-selection'), 'soft selection should start enabled');
+  assert(doc.documentElement.hasAttribute('zpbw-blue-menubar'), 'blue menubar starts enabled');
   assert(doc.getElementById('zpbw-stylesheet'), 'main CSS inserted');
   assert(doc.getElementById('zpbw-tools-menu'), 'submenu inserted');
   assert(readerDoc.getElementById('zpbw-reader-stylesheet'), 'reader CSS inserted');
@@ -121,12 +122,19 @@ function makeDocument() {
   assert(!doc.documentElement.hasAttribute('zpbw-soft-selection'));
   selection.events.command();
   assert(doc.documentElement.hasAttribute('zpbw-soft-selection'));
+  const blueMenubar = doc.getElementById('zpbw-blue-menubar-item');
+  assert(blueMenubar, 'blue menubar checkbox exists');
+  blueMenubar.events.command();
+  assert(!doc.documentElement.hasAttribute('zpbw-blue-menubar'), 'can turn blue menubar off');
+  blueMenubar.events.command();
+  assert(doc.documentElement.hasAttribute('zpbw-blue-menubar'), 'can turn blue menubar on');
   const enable = doc.getElementById('zpbw-enable-item');
   enable.events.command();
   assert.equal(enable.checked, false);
   assert.equal(grid.disabled, true);
   assert.equal(itemsGrid.disabled, true);
   assert.equal(selection.disabled, true);
+  assert.equal(blueMenubar.disabled, true);
   assert(!doc.documentElement.hasAttribute('zpbw-theme'), 'theme can toggle off');
   assert(!readerDoc.documentElement.hasAttribute('zpbw-theme'), 'reader theme can toggle off');
   enable.events.command();
@@ -134,6 +142,7 @@ function makeDocument() {
   assert.equal(grid.disabled, false);
   assert.equal(itemsGrid.disabled, false);
   assert.equal(selection.disabled, false);
+  assert.equal(blueMenubar.disabled, false);
   assert(!Object.hasOwn(grid.attrs, 'disabled'), 'never write disabled="false"');
   assert(doc.documentElement.hasAttribute('zpbw-theme'), 'theme can toggle on');
   readerHook({reader});
@@ -141,6 +150,7 @@ function makeDocument() {
   assert(!doc.getElementById('zpbw-stylesheet'), 'main stylesheet removed');
   assert(!doc.documentElement.hasAttribute('zpbw-items-grid'));
   assert(!doc.documentElement.hasAttribute('zpbw-soft-selection'));
+  assert(!doc.documentElement.hasAttribute('zpbw-blue-menubar'));
   assert(!doc.getElementById('zpbw-tools-menu'), 'plugin menu removed');
   assert(!readerDoc.getElementById('zpbw-reader-stylesheet'), 'reader stylesheet removed');
   assert.equal(doc.getElementById('menu_File'), nativeFile, 'native File menu preserved on shutdown');
@@ -150,6 +160,8 @@ function makeDocument() {
   assert(!readerHook,'reader listener cleaned up');
   const css = fs.readFileSync(path.join(root, 'content/theme.css'),'utf8')
     .replace(/\/\*[\s\S]*?\*\//g, '');
-  assert(!/(menubar|menu_File|menu_Edit|menu_View)[^{]*\{/.test(css),'do not style native menubar');
+  assert(css.includes('@media (-moz-platform: linux)'), 'menubar color only on Linux');
+  assert(css.includes('[zpbw-blue-menubar]'), 'menubar change is reversible');
+  assert(!/#titlebar[^\{]*\{[^}]*\b(display|visibility|position|height|appearance)\s*:/.test(css), 'no menu geometry changes');
   console.log('OK: startup, stylesheet/menu injection, reader styling, toggles, teardown, menu preservation.');
 })().catch(e=>{console.error(e);process.exitCode=1;});

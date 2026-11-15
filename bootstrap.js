@@ -58,10 +58,12 @@ function createPixelBlueWorkspace(pluginID) {
   const PREF_GRID = "extensions.zotero-pixel-blue-workspace.grid";
   const PREF_ITEMS_GRID = "extensions.zotero-pixel-blue-workspace.itemsGrid";
   const PREF_SOFT_SELECTION = "extensions.zotero-pixel-blue-workspace.softSelection";
+  const PREF_BLUE_MENUBAR = "extensions.zotero-pixel-blue-workspace.blueMenubar";
   const ATTR_THEME = "zpbw-theme";
   const ATTR_GRID = "zpbw-grid";
   const ATTR_ITEMS_GRID = "zpbw-items-grid";
   const ATTR_SOFT_SELECTION = "zpbw-soft-selection";
+  const ATTR_BLUE_MENUBAR = "zpbw-blue-menubar";
   const CSS_URL = "chrome://zotero-pixel-blue-workspace/content/theme.css";
   const READER_CSS_URL = "chrome://zotero-pixel-blue-workspace/content/reader.css";
   const HTML_NS = "http://www.w3.org/1999/xhtml";
@@ -74,6 +76,7 @@ function createPixelBlueWorkspace(pluginID) {
   let gridObserver = null;
   let itemsGridObserver = null;
   let softSelectionObserver = null;
+  let blueMenubarObserver = null;
   let readerHookRegistered = false;
   let watcherRegistered = false;
 
@@ -88,6 +91,7 @@ function createPixelBlueWorkspace(pluginID) {
   const isGrid = () => getPref(PREF_GRID, true);
   const isItemsGrid = () => getPref(PREF_ITEMS_GRID, true);
   const isSoftSelection = () => getPref(PREF_SOFT_SELECTION, true);
+  const isBlueMenubar = () => getPref(PREF_BLUE_MENUBAR, true);
 
   function isZoteroWindow(win) {
     try {
@@ -141,6 +145,12 @@ function createPixelBlueWorkspace(pluginID) {
       selectionItem.setAttribute("label", "Seleção azul suave / Soft selection");
       selectionItem.addEventListener("command", () => Zotero.Prefs.set(PREF_SOFT_SELECTION, !isSoftSelection(), true));
       popup.appendChild(selectionItem);
+      const blueMenubarItem = doc.createXULElement("menuitem");
+      blueMenubarItem.id = "zpbw-blue-menubar-item";
+      blueMenubarItem.setAttribute("type", "checkbox");
+      blueMenubarItem.setAttribute("label", "Barra de menus azul / Blue menu bar");
+      blueMenubarItem.addEventListener("command", () => Zotero.Prefs.set(PREF_BLUE_MENUBAR, !isBlueMenubar(), true));
+      popup.appendChild(blueMenubarItem);
       menu.appendChild(popup);
       toolsPopup.appendChild(menu);
     }
@@ -148,6 +158,7 @@ function createPixelBlueWorkspace(pluginID) {
     const gridItem = doc.getElementById("zpbw-grid-item");
     const itemsGridItem = doc.getElementById("zpbw-items-grid-item");
     const selectionItem = doc.getElementById("zpbw-soft-selection-item");
+    const blueMenubarItem = doc.getElementById("zpbw-blue-menubar-item");
     // Zotero 11 (Firefox 153) treats XUL boolean attributes as present/absent.
     // Setting disabled="false" would DISABLE the control in Zotero 11.
     // The reflected properties work across Zotero 7–11 and do not risk this.
@@ -163,6 +174,10 @@ function createPixelBlueWorkspace(pluginID) {
     if (selectionItem) {
       selectionItem.checked = isSoftSelection();
       selectionItem.disabled = !isEnabled();
+    }
+    if (blueMenubarItem) {
+      blueMenubarItem.checked = isBlueMenubar();
+      blueMenubarItem.disabled = !isEnabled();
     }
   }
 
@@ -183,6 +198,7 @@ function createPixelBlueWorkspace(pluginID) {
       doc.documentElement.toggleAttribute(ATTR_GRID, isEnabled() && isGrid());
       doc.documentElement.toggleAttribute(ATTR_ITEMS_GRID, isEnabled() && isItemsGrid());
       doc.documentElement.toggleAttribute(ATTR_SOFT_SELECTION, isEnabled() && isSoftSelection());
+      doc.documentElement.toggleAttribute(ATTR_BLUE_MENUBAR, isEnabled() && isBlueMenubar());
       addMenu(win);
     }
     catch (error) { Zotero.logError(error); }
@@ -196,6 +212,7 @@ function createPixelBlueWorkspace(pluginID) {
       doc.documentElement.removeAttribute(ATTR_GRID);
       doc.documentElement.removeAttribute(ATTR_ITEMS_GRID);
       doc.documentElement.removeAttribute(ATTR_SOFT_SELECTION);
+      doc.documentElement.removeAttribute(ATTR_BLUE_MENUBAR);
       doc.getElementById(MAIN_STYLE_ID)?.remove();
       doc.getElementById(MENU_ID)?.remove();
     }
@@ -277,6 +294,7 @@ function createPixelBlueWorkspace(pluginID) {
     gridObserver = Zotero.Prefs.registerObserver(PREF_GRID, refreshAll, true);
     itemsGridObserver = Zotero.Prefs.registerObserver(PREF_ITEMS_GRID, refreshAll, true);
     softSelectionObserver = Zotero.Prefs.registerObserver(PREF_SOFT_SELECTION, refreshAll, true);
+    blueMenubarObserver = Zotero.Prefs.registerObserver(PREF_BLUE_MENUBAR, refreshAll, true);
     refreshAll();
   }
 
@@ -294,7 +312,8 @@ function createPixelBlueWorkspace(pluginID) {
     if (gridObserver != null) Zotero.Prefs.unregisterObserver(gridObserver);
     if (itemsGridObserver != null) Zotero.Prefs.unregisterObserver(itemsGridObserver);
     if (softSelectionObserver != null) Zotero.Prefs.unregisterObserver(softSelectionObserver);
-    enabledObserver = gridObserver = itemsGridObserver = softSelectionObserver = null;
+    if (blueMenubarObserver != null) Zotero.Prefs.unregisterObserver(blueMenubarObserver);
+    enabledObserver = gridObserver = itemsGridObserver = softSelectionObserver = blueMenubarObserver = null;
     for (const win of allWindows()) undecorateWindow(win);
     for (const reader of allReaders()) undecorateReader(reader);
   }
