@@ -1,0 +1,33 @@
+name: Build experimental XPI on version update
+on:
+  push:
+    branches: [main]
+    paths:
+      - manifest.json
+permissions:
+  contents: write
+jobs:
+  prerelease:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate and package
+        shell: bash
+        run: |
+          set -euo pipefail
+          bash scripts/build.sh
+      - name: Publish prerelease if new
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          VERSION=$(python3 -c 'import json; print(json.load(open("manifest.json"))["version"])')
+          TAG="v${VERSION}"
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            echo "Release already exists: $TAG"
+            exit 0
+          fi
+          gh release create "$TAG" "dist/zotero-pixel-blue-workspace-${VERSION}.xpi" dist/updates.json \
+            --target "$GITHUB_SHA" --prerelease --title "Zotero Pixel-Blue Workspace $TAG (experimental)" \
+            --notes-file CHANGELOG.md
